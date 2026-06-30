@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S10 — Portafolio T1: lo que sé ahora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul-oscuro:#0d2244;
+    --azul-medio:#1a3a6e;
+    --azul:#2563c0;
+    --oro:#f59e0b;
+    --oro-suave:#fcd9a0;
+    --blanco:#ffffff;
+    --gris-claro:#c7d2e0;
+    --verde:#1f9d6b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Nunito',sans-serif;
+    background:var(--azul-oscuro);
+    color:var(--blanco);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.baloo{font-family:'Baloo 2',cursive;}
+  .screen{
+    display:none;
+    min-height:100vh;
+    flex-direction:column;
+    padding:24px 20px 12px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .screen.active{display:flex;}
+
+  /* ---------- PORTADA ---------- */
+  #portada{
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:radial-gradient(circle at 50% 30%, var(--azul-medio), var(--azul-oscuro) 70%);
+  }
+  #portada .emoji-row{font-size:3.4rem;margin-bottom:10px;letter-spacing:8px;}
+  #portada h1{font-size:3rem;color:var(--oro);line-height:1.1;text-shadow:0 3px 0 rgba(0,0,0,.2);}
+  #portada .sub{font-size:1.5rem;color:var(--blanco);margin-top:10px;font-weight:700;}
+  #portada .meta{font-size:1.05rem;color:var(--gris-claro);margin-top:16px;}
+  .start-btn{
+    margin-top:30px;background:var(--oro);color:var(--azul-oscuro);
+    border:none;border-radius:16px;padding:16px 34px;font-size:1.4rem;
+    font-family:'Baloo 2',cursive;font-weight:700;cursor:pointer;
+    box-shadow:0 6px 0 #b9760a;transition:transform .1s;
+  }
+  .start-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b9760a;}
+
+  /* ---------- BARRA SUPERIOR ---------- */
+  .topbar{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    border-bottom:2px solid var(--azul-medio);padding-bottom:10px;margin-bottom:14px;
+  }
+  .icon-btn{
+    background:var(--azul-medio);color:var(--blanco);border:none;border-radius:10px;
+    width:44px;height:44px;font-size:1.2rem;cursor:pointer;flex-shrink:0;
+  }
+  .icon-btn:hover{background:var(--azul);}
+  .back-btn{
+    background:var(--azul-medio);color:var(--blanco);border:none;border-radius:10px;
+    padding:0 14px;height:44px;font-weight:700;cursor:pointer;font-size:.95rem;
+  }
+  .back-btn:hover{background:var(--azul);}
+  .phase-title{font-size:1.2rem;color:var(--oro);font-weight:700;flex:1;min-width:140px;}
+  .timer{
+    background:var(--azul-oscuro);border:2px solid var(--oro);border-radius:10px;
+    padding:6px 12px;font-family:'Baloo 2',cursive;font-size:1.1rem;color:var(--oro-suave);
+    display:flex;align-items:center;gap:8px;
+  }
+  .timer button{background:none;border:none;color:var(--gris-claro);cursor:pointer;font-size:.95rem;}
+
+  /* ---------- PESTAÑAS DE FASE ---------- */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+  .tab{
+    background:var(--azul-medio);color:var(--gris-claro);border:none;border-radius:8px;
+    padding:7px 12px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;
+  }
+  .tab:hover{background:var(--azul);color:var(--blanco);}
+  .tab.current{background:var(--oro);color:var(--azul-oscuro);}
+
+  /* ---------- CONTENIDO ---------- */
+  .content{flex:1;}
+  .lead{font-size:1.25rem;line-height:1.5;margin-bottom:14px;}
+  .lead strong{color:var(--oro-suave);}
+
+  .card{
+    background:var(--azul-medio);border-radius:14px;padding:18px 20px;margin-bottom:14px;
+  }
+  .card h3{color:var(--oro);font-size:1.3rem;margin-bottom:8px;}
+
+  /* nota docente */
+  .nota{
+    background:rgba(245,158,11,.08);border:2px solid var(--oro);border-radius:12px;
+    padding:12px 16px;margin:14px 0;font-size:.98rem;color:var(--oro-suave);
+  }
+  .nota strong{color:var(--oro);}
+
+  /* alerta roja */
+  .alerta{
+    background:#7f1d1d;border:2px solid #ef4444;border-radius:12px;
+    padding:10px 16px;margin:14px 0;font-weight:700;color:#fecaca;display:flex;gap:10px;align-items:center;
+  }
+
+  /* revelables */
+  .reveal-btn{
+    background:var(--azul);color:var(--blanco);border:none;border-radius:12px;
+    padding:13px 20px;font-size:1.05rem;font-weight:700;cursor:pointer;
+    font-family:'Baloo 2',cursive;margin:6px 0;
+  }
+  .reveal-btn:hover{background:#3478e0;}
+  .reveal{
+    max-height:0;overflow:hidden;transition:max-height .35s ease;
+    background:var(--azul-oscuro);border-radius:12px;
+  }
+  .reveal.shown{max-height:1200px;padding:16px 18px;margin:8px 0 14px;border:1px solid var(--azul);}
+
+  .link-btn{
+    display:inline-block;background:#c0392b;color:var(--blanco);text-decoration:none;
+    border-radius:12px;padding:13px 22px;font-weight:700;font-family:'Baloo 2',cursive;
+    font-size:1.05rem;margin:6px 0;
+  }
+  .link-btn:hover{background:#e04b39;}
+
+  /* timeline */
+  .timeline{display:flex;flex-direction:column;gap:8px;}
+  .tl-item{
+    display:flex;gap:12px;align-items:flex-start;background:var(--azul-medio);
+    border-radius:10px;padding:10px 14px;
+  }
+  .tl-num{
+    background:var(--oro);color:var(--azul-oscuro);font-family:'Baloo 2',cursive;font-weight:800;
+    border-radius:8px;min-width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+  }
+  .tl-item b{color:var(--oro-suave);}
+
+  /* iceberg */
+  .iceberg-wrap{text-align:center;margin:10px 0 4px;}
+  .iceberg{max-width:340px;width:100%;}
+  .water-label{display:flex;justify-content:space-around;margin-top:10px;gap:10px;flex-wrap:wrap;}
+  .water-label div{flex:1;min-width:200px;background:var(--azul-medio);border-radius:10px;padding:10px;}
+
+  /* portafolio pasos */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+  .step{background:var(--azul-medio);border-radius:12px;padding:12px;text-align:center;}
+  .step .se{font-size:1.9rem;}
+  .step b{display:block;color:var(--oro-suave);margin:6px 0 2px;}
+  .step span{font-size:.9rem;color:var(--gris-claro);}
+
+  /* película */
+  .movie{display:flex;gap:16px;background:var(--azul-medio);border-radius:14px;padding:18px;align-items:flex-start;flex-wrap:wrap;}
+  .movie .mem{font-size:3rem;}
+  .movie .minfo{flex:1;min-width:220px;}
+  .movie h3{color:var(--oro);font-size:1.3rem;margin-bottom:6px;}
+
+  /* ---------- PIE DE LICENCIA ---------- */
+  .licencia{
+    margin-top:14px;padding-top:10px;border-top:1px solid var(--azul-medio);
+    font-size:.72rem;color:var(--gris-claro);text-align:center;line-height:1.4;
+  }
+  .licencia.full{color:var(--oro-suave);}
+  @media(max-width:600px){
+    #portada h1{font-size:2.1rem;}
+    .lead{font-size:1.1rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section id="portada" class="screen active">
+  <div class="emoji-row">🧳🧠✨📋</div>
+  <h1>Portafolio del trimestre:<br>lo que sé ahora</h1>
+  <div class="sub">Sesión 10 · Cierre del primer trimestre</div>
+  <div class="meta">Proyecto «IA en primarIA» · 5.º de Primaria</div>
+  <button class="start-btn" onclick="go('menu')">Empezar ▶</button>
+  <div class="licencia full">
+    © Luis Gómez Peñalver · CEIP San Fernando, Fuente del Rey, Dos Hermanas (Sevilla) · 2026<br>
+    Proyecto IA en primarIA · Este material se distribuye bajo licencia CC BY-NC-SA 4.0
+  </div>
+</section>
+
+<!-- ============ MENÚ ============ -->
+<section id="menu" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="go('portada')">🏠</button>
+    <div class="phase-title">Menú de la sesión</div>
+  </div>
+  <div class="content">
+    <p class="lead">Hoy cerramos el trimestre. No hay nada nuevo: vamos a <strong>recoger lo aprendido</strong>, montar nuestro portafolio y demostrar lo que sabemos.</p>
+    <div class="steps">
+      <div class="step" onclick="go('f0')" style="cursor:pointer"><div class="se">🗺️</div><b>Fase 0</b><span>El recorrido</span></div>
+      <div class="step" onclick="go('f1')" style="cursor:pointer"><div class="se">🧊</div><b>Fase 1</b><span>El detonante</span></div>
+      <div class="step" onclick="go('f2')" style="cursor:pointer"><div class="se">🧳</div><b>Fase 2</b><span>Mi portafolio</span></div>
+      <div class="step" onclick="go('f3')" style="cursor:pointer"><div class="se">📝</div><b>Fase 3</b><span>El control</span></div>
+      <div class="step" onclick="go('f4')" style="cursor:pointer"><div class="se">🎬</div><b>Fase 4</b><span>Cierre</span></div>
+    </div>
+    <div class="nota"><strong>💡 Nota docente.</strong> Sesión de evaluación de cierre de trimestre (50 min). El portafolio analógico es la actividad nuclear. Si el grupo va justo, el control puede pasarse en otra sesión. Las pestañas inferiores permiten saltar de fase sin volver al menú.</div>
+  </div>
+  <div class="licencia full">
+    © Luis Gómez Peñalver · CEIP San Fernando, Fuente del Rey, Dos Hermanas (Sevilla) · 2026<br>
+    Proyecto IA en primarIA · CC BY-NC-SA 4.0
+  </div>
+</section>
+
+<!-- ============ FASE 0 ============ -->
+<section id="f0" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="go('menu')">🏠</button>
+    <button class="back-btn" onclick="go('menu')">← Volver</button>
+    <div class="phase-title">Fase 0 · El recorrido</div>
+    <div class="timer"><span id="t-f0">05:00</span><button onclick="startTimer('f0',300)">▶</button><button onclick="resetTimer('f0',300)">↺</button></div>
+  </div>
+  <div class="tabs" id="tabs-f0"></div>
+  <div class="content">
+    <p class="lead">En septiembre no sabíais casi nada de la IA. Mirad todo lo que habéis aprendido en un trimestre.</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-num">S1</div><div>Hicimos un <b>mapa de ideas</b>: qué pensábamos que era la IA.</div></div>
+      <div class="tl-item"><div class="tl-num">S2</div><div>El <b>juego del cartero</b>: aprendimos qué es un algoritmo (pasos exactos).</div></div>
+      <div class="tl-item"><div class="tl-num">S3</div><div><b>Programa vs. IA</b>: no es lo mismo seguir reglas que aprender de ejemplos.</div></div>
+      <div class="tl-item"><div class="tl-num">S4</div><div><b>¿Qué es un dato?</b> Clasificamos datos y vimos los datos personales.</div></div>
+      <div class="tl-item"><div class="tl-num">S5</div><div><b>Quick, Draw!</b>: la IA acierta lo común y falla lo raro porque aprende de ejemplos.</div></div>
+      <div class="tl-item"><div class="tl-num">S6</div><div><b>La IA en mi vida</b>: dónde está y si ayuda o vigila.</div></div>
+      <div class="tl-item"><div class="tl-num">S7</div><div><b>Detective de fuentes</b>: una IA que solo responde con los documentos que le damos.</div></div>
+      <div class="tl-item"><div class="tl-num">S8</div><div><b>Primeros prompts</b>: cómo se le habla a una IA para que responda mejor.</div></div>
+      <div class="tl-item"><div class="tl-num">S9</div><div><b>¿Es lista de verdad?</b> Reconoce patrones, pero no comprende como nosotros.</div></div>
+    </div>
+    <div class="nota"><strong>💡 Nota docente.</strong> Léelo como un repaso rápido. Pregunta abierta para enganchar: «¿cuál es la sesión que más recordáis y por qué?».</div>
+  </div>
+  <div class="licencia">© Luis Gómez Peñalver · IA en primarIA · CEIP San Fernando · CC BY-NC-SA 4.0</div>
+</section>
+
+<!-- ============ FASE 1 ============ -->
+<section id="f1" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="go('menu')">🏠</button>
+    <button class="back-btn" onclick="go('menu')">← Volver</button>
+    <div class="phase-title">Fase 1 · El detonante</div>
+    <div class="timer"><span id="t-f1">05:00</span><button onclick="startTimer('f1',300)">▶</button><button onclick="resetTimer('f1',300)">↺</button></div>
+  </div>
+  <div class="tabs" id="tabs-f1"></div>
+  <div class="content">
+    <p class="lead">La IA es como un <strong>iceberg</strong>. En septiembre solo veíais la punta. ¿Qué hay debajo del agua ahora?</p>
+    <div class="iceberg-wrap">
+      <svg class="iceberg" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Iceberg de la inteligencia artificial">
+        <rect x="0" y="120" width="300" height="200" fill="#123a63"/>
+        <line x1="0" y1="120" x2="300" y2="120" stroke="#2563c0" stroke-width="3"/>
+        <polygon points="150,20 110,120 190,120" fill="#eaf2fb"/>
+        <polygon points="150,120 60,120 90,300 210,300 240,120" fill="#9fc2e8"/>
+        <polygon points="150,120 110,120 130,300 150,300" fill="#7ba7d8"/>
+        <text x="150" y="80" text-anchor="middle" font-family="Baloo 2" font-size="13" fill="#0d2244" font-weight="700">Lo que veía</text>
+        <text x="150" y="200" text-anchor="middle" font-family="Baloo 2" font-size="14" fill="#0d2244" font-weight="700">Datos</text>
+        <text x="150" y="225" text-anchor="middle" font-family="Baloo 2" font-size="14" fill="#0d2244" font-weight="700">Algoritmos</text>
+        <text x="150" y="250" text-anchor="middle" font-family="Baloo 2" font-size="14" fill="#0d2244" font-weight="700">Ejemplos</text>
+        <text x="150" y="275" text-anchor="middle" font-family="Baloo 2" font-size="14" fill="#0d2244" font-weight="700">Quién la hace</text>
+      </svg>
+    </div>
+    <div class="water-label">
+      <div><b style="color:var(--oro-suave)">🔺 La punta:</b> «la IA es un robot listo».</div>
+      <div><b style="color:var(--oro-suave)">🧊 Bajo el agua:</b> datos, algoritmos, ejemplos y personas que la entrenan.</div>
+    </div>
+    <button class="reveal-btn" onclick="toggleReveal('r1')">💬 Toca para la pregunta del día</button>
+    <div class="reveal" id="r1">
+      <p style="font-size:1.15rem;">Piensa un momento en silencio: <strong style="color:var(--oro-suave)">¿qué sabes hoy de la IA que en septiembre no sabías?</strong> Esa respuesta es la primera página de tu portafolio.</p>
+    </div>
+    <div class="nota"><strong>💡 Nota docente.</strong> No corrijas todavía. Recoge dos o tres respuestas en voz alta y pasa a la Fase 2: la reflexión continúa por escrito en el portafolio.</div>
+  </div>
+  <div class="licencia">© Luis Gómez Peñalver · IA en primarIA · CEIP San Fernando · CC BY-NC-SA 4.0</div>
+</section>
+
+<!-- ============ FASE 2 ============ -->
+<section id="f2" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="go('menu')">🏠</button>
+    <button class="back-btn" onclick="go('menu')">← Volver</button>
+    <div class="phase-title">Fase 2 · Mi portafolio</div>
+    <div class="timer"><span id="t-f2">18:00</span><button onclick="startTimer('f2',1080)">▶</button><button onclick="resetTimer('f2',1080)">↺</button></div>
+  </div>
+  <div class="tabs" id="tabs-f2"></div>
+  <div class="content">
+    <p class="lead">Vamos a montar tu <strong>portafolio del trimestre</strong>: en papel, con tus palabras y tus dibujos. Es tuyo y cuenta lo que has aprendido.</p>
+    <div class="steps">
+      <div class="step"><div class="se">📕</div><b>1. Portada</b><span>Tu nombre y el del proyecto.</span></div>
+      <div class="step"><div class="se">🕰️</div><b>2. En septiembre</b><span>Lo que pensabas que era la IA.</span></div>
+      <div class="step"><div class="se">🧩</div><b>3. Lo aprendido</b><span>Una hoja por idea: algoritmo, dato, prompt…</span></div>
+      <div class="step"><div class="se">⭐</div><b>4. Mi favorita</b><span>La actividad que más te gustó y por qué.</span></div>
+      <div class="step"><div class="se">💡</div><b>5. Lo que sé ahora</b><span>Tu cierre, comparado con la página 2.</span></div>
+    </div>
+    <button class="reveal-btn" onclick="toggleReveal('r2')">✍️ Toca para ver cómo rellenarlo bien</button>
+    <div class="reveal" id="r2">
+      <p>En cada hoja: una frase con tus palabras + un dibujo si te ayuda. No hace falta escribir mucho, sino que se entienda lo que has aprendido. Cuando termines, grapa las hojas en orden: ese es tu portafolio.</p>
+    </div>
+    <div class="alerta"><span>✋</span><div>Trabajo individual y en silencio. Si necesitas ayuda, levanta la mano.</div></div>
+    <div class="nota"><strong>💡 Nota docente.</strong> Reparte las hojas imprimibles del portafolio. Recupera el mapa de ideas de S1 para la página 2 (que comparen). El portafolio se guarda como evidencia del trimestre y sirve para la sesión con familias.</div>
+  </div>
+  <div class="licencia">© Luis Gómez Peñalver · IA en primarIA · CEIP San Fernando · CC BY-NC-SA 4.0</div>
+</section>
+
+<!-- ============ FASE 3 ============ -->
+<section id="f3" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="go('menu')">🏠</button>
+    <button class="back-btn" onclick="go('menu')">← Volver</button>
+    <div class="phase-title">Fase 3 · El control</div>
+    <div class="timer"><span id="t-f3">17:00</span><button onclick="startTimer('f3',1020)">▶</button><button onclick="resetTimer('f3',1020)">↺</button></div>
+  </div>
+  <div class="tabs" id="tabs-f3"></div>
+  <div class="content">
+    <p class="lead">Ahora un <strong>control</strong> para ver lo que has aprendido del trimestre. No es para asustar a nadie: si has estado en clase, lo sabes.</p>
+    <div class="card">
+      <h3>Antes de empezar</h3>
+      <p>Lee cada pregunta con calma. Si una no la sabes, pasa a la siguiente y vuelve al final. Hay preguntas de marcar, de verdadero o falso, de respuesta corta y una para pensar y escribir.</p>
+    </div>
+    <div class="alerta"><span>🤫</span><div>Trabajo individual y en silencio. Cada uno responde lo suyo. Dudas, con la mano levantada.</div></div>
+    <button class="reveal-btn" onclick="toggleReveal('r3')">⏱️ ¿Cuánto tiempo tenemos?</button>
+    <div class="reveal" id="r3">
+      <p>Tenéis unos <strong>15 minutos</strong>. El cronómetro de arriba os avisa. Cuando queden 3 minutos lo digo en voz alta.</p>
+    </div>
+    <div class="nota"><strong>💡 Nota docente.</strong> El control va en papel (lo tienes en el documento aparte, 2 carillas). Reparte una copia por alumno. Cronómetro orientativo; adapta el tiempo al grupo y al alumnado NEAE (más tiempo o lectura en voz alta si procede).</div>
+  </div>
+  <div class="licencia">© Luis Gómez Peñalver · IA en primarIA · CEIP San Fernando · CC BY-NC-SA 4.0</div>
+</section>
+
+<!-- ============ FASE 4 ============ -->
+<section id="f4" class="screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="go('menu')">🏠</button>
+    <button class="back-btn" onclick="go('menu')">← Volver</button>
+    <div class="phase-title">Fase 4 · Cierre</div>
+    <div class="timer"><span id="t-f4">05:00</span><button onclick="startTimer('f4',300)">▶</button><button onclick="resetTimer('f4',300)">↺</button></div>
+  </div>
+  <div class="tabs" id="tabs-f4"></div>
+  <div class="content">
+    <p class="lead">Cerramos el trimestre. Mira tu portafolio: la página 2 («en septiembre») y la última («lo que sé ahora»). <strong>¿Cuánto has cambiado?</strong></p>
+    <button class="reveal-btn" onclick="toggleReveal('r4')">🔭 Lo que viene en el segundo trimestre</button>
+    <div class="reveal" id="r4">
+      <p>En el siguiente trimestre vamos a meternos <strong>dentro de la máquina</strong>: cómo aprende de verdad una IA, cómo se entrena con ejemplos y por qué a veces se equivoca o es injusta. Empezamos con un juego (S11).</p>
+    </div>
+
+    <div class="movie">
+      <div class="mem">🎬🤖🌱</div>
+      <div class="minfo">
+        <h3>Película del trimestre: «WALL·E» (2008)</h3>
+        <p>En un futuro lejano, la Tierra está cubierta de basura y las personas se han marchado. Solo queda un pequeño robot, <strong>WALL·E</strong>, que lleva 700 años haciendo lo único que sabe hacer: compactar basura, día tras día. No habla, pero observa, guarda tesoros que encuentra y siente curiosidad por todo. Un día llega <strong>EVA</strong>, un robot moderno con una misión, y WALL·E lo cambia todo por seguirla.</p>
+        <p style="margin-top:8px;">Fíjate cuando la veas: WALL·E y EVA <strong>siguen instrucciones</strong> que alguien les programó, pero hay algo que parece ir más allá. ¿De verdad sienten, o lo parece? Es justo la pregunta de la S9.</p>
+        <p style="margin-top:8px;color:var(--oro-suave);"><strong>Para pensar:</strong> ¿qué tareas hace WALL·E como una máquina (reconoce, ordena, repite) y qué hace que parezca una persona?</p>
+      </div>
+    </div>
+
+    <div class="nota"><strong>💡 Nota docente.</strong> WALL·E es la película del trimestre. Tras verla en clase, el artefacto «WALL·E: repasamos el trimestre» retoma estas competencias (personajes, sinopsis, valores y repaso de S1–S9). Sirve de comodín para los días sueltos del cierre.</div>
+  </div>
+  <div class="licencia full">
+    © Luis Gómez Peñalver · CEIP San Fernando, Fuente del Rey, Dos Hermanas (Sevilla) · 2026<br>
+    Proyecto IA en primarIA · Este material se distribuye bajo licencia CC BY-NC-SA 4.0
+  </div>
+</section>
+
+<script>
+  const phases=['f0','f1','f2','f3','f4'];
+  const phaseNames={f0:'0 · Recorrido',f1:'1 · Detonante',f2:'2 · Portafolio',f3:'3 · Control',f4:'4 · Cierre'};
+
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+    if(phases.includes(id)) markTab(id);
+  }
+  function markTab(current){
+    phases.forEach(p=>{
+      const bar=document.getElementById('tabs-'+p);
+      if(!bar) return;
+      bar.querySelectorAll('.tab').forEach(t=>{
+        t.classList.toggle('current', t.dataset.target===current);
+      });
+    });
+  }
+  // construir pestañas en cada fase
+  phases.forEach(p=>{
+    const bar=document.getElementById('tabs-'+p);
+    phases.forEach(target=>{
+      const b=document.createElement('button');
+      b.className='tab'+(target===p?' current':'');
+      b.textContent=phaseNames[target];
+      b.dataset.target=target;
+      b.onclick=()=>go(target);
+      bar.appendChild(b);
+    });
+  });
+
+  function toggleReveal(id){document.getElementById(id).classList.toggle('shown');}
+
+  // cronómetros independientes por fase
+  const timers={};
+  function fmt(s){const m=Math.floor(s/60),x=s%60;return String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
+  function startTimer(p,total){
+    if(timers[p]&&timers[p].run) return;
+    if(!timers[p]) timers[p]={left:total,run:false};
+    timers[p].run=true;
+    timers[p].id=setInterval(()=>{
+      if(timers[p].left<=0){clearInterval(timers[p].id);timers[p].run=false;document.getElementById('t-'+p).textContent='00:00';return;}
+      timers[p].left--;
+      document.getElementById('t-'+p).textContent=fmt(timers[p].left);
+    },1000);
+  }
+  function resetTimer(p,total){
+    if(timers[p]&&timers[p].id) clearInterval(timers[p].id);
+    timers[p]={left:total,run:false};
+    document.getElementById('t-'+p).textContent=fmt(total);
+  }
+</script>
+</body>
+</html>
